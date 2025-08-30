@@ -1,0 +1,383 @@
+\documentclass{beamer}
+
+% Paquetes cargados
+\usepackage{graphicx}
+\usepackage[spanish]{babel}
+\usepackage{ragged2e}
+\usepackage{float} 
+\usepackage{animate} 
+\usepackage{media9}
+\usepackage{caption}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[utf8]{inputenc}
+\usepackage{url}
+\usepackage{lipsum}
+\usepackage{bookmark}
+\usepackage{hyperref}
+
+% Paquetes para tablas y figuras
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usepackage{multicol}
+
+% Paquetes matemáticos
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{amsfonts}
+\usepackage{mathrsfs}
+\usepackage{physics}
+\usepackage{interval}
+
+% Paquetes para colores
+\usepackage{color}
+\usepackage{colortbl}
+\usepackage{transparent}
+
+% Paquete para códigos
+\usepackage{listings}
+\usepackage{xcolor}
+
+
+% Configuración para mostrar código de R
+\lstset{
+	inputencoding=utf8,                % Asegura codificación UTF-8
+	extendedchars=true,                % Habilita caracteres extendidos
+	literate= {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+	{Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+	{ñ}{{\~n}}1 {Ñ}{{\~N}}1 {¿}{{\textquestiondown}}1 {¡}{{\textexclamdown}}1
+	{“}{{``}}1 {”}{{''}}1 {‘}{{`}}1 {’}{{'}}1, % Manejo de comillas y signos
+	language=R,
+	basicstyle=\ttfamily\tiny,
+	keywordstyle=\color{blue},
+	commentstyle=\color{green!60!black},
+	stringstyle=\color{red},
+	showstringspaces=false,
+	breaklines=true,
+	backgroundcolor=\color{orange!15!white},
+	frame=single,
+	numbers=left,
+	numberstyle=\tiny\color{gray},
+	captionpos=b
+}
+
+\captionsetup{justification=centering}
+
+\hypersetup{
+	pdfauthor={Nome Cognome},
+	pdftitle={Titolo presentazione},
+	pdfsubject={Argomento presentazione}
+}
+
+\title[EIG]{Especies de las Islas Galápagos}
+\subtitle{Laboratorio de Modelos Lineales}
+\institute{Universidad Católica del Maule}
+\author[M.V]{Matías Valenzuela Nuche}
+\year=2024
+\month=10
+\day=1
+\def\relatore{José Zúñiga Núñez}
+\def\relatoreLabel{Profesor}
+\def\candidatoLabel{Autor}
+\def\LogoDipartimento{otherResources/logo carrera.png}
+\def\LogoFiligrana{otherResources/JAVI 4_Mesa de trabajo 1.png}
+\def\LogoUniversita{otherResources/LOGO_IES.png}
+
+\input{otherResources/presentazione_myThemeSetting.tex}
+
+\begin{document}
+	
+	\begin{frame}
+		\setTitlestyleDissertation
+		\maketitle
+	\end{frame}
+	
+	
+	\begin{frame}[fragile]
+		\frametitle{Contenidos}
+		
+		\justifying
+		\tableofcontents
+	\end{frame}
+	
+	\section{Introducción}
+	\begin{frame}[fragile]
+		\frametitle{Introducción}
+		
+		\justifying
+		
+		\begin{itemize}
+			\item Las islas Galápagos constituyen un archipiélago del océano Pacífico, ubicado a 972 km de la costa de Ecuador.
+			\item Estas islas son conocidas por sus numerosas especies endémicas y por los estudios de Charles Darwin sobre la teoría de la evolución por selección natural.
+			\item En estas islas se han registrado 55 de las más grandes erupciones volcánicas de los últimos tiempos.
+		\end{itemize}
+		
+		\vspace{0.2cm}
+		
+		\begin{figure}[h] 
+			\centering 
+			\includegraphics[width=0.5\textwidth]{big-15-galapagos-iconic-species.jpg}
+			\caption{Especies icónicas de las islas Galápagos.}  
+			\label{fig:Especies}  
+		\end{figure}    
+	\end{frame}
+	
+	\section{Descripción}
+	\begin{frame}[fragile]
+		\frametitle{Descripción}
+		
+		\justifying
+		
+		Se busca encontrar patrones ecológicos que sean capaces de predecir la diversidad de especies de una isla del archipiélago cualquiera, basándonos en sus relaciones de frecuencias con otros factores ecológicos registrables.
+		
+		\vspace{0.2cm}
+		
+		\noindent
+		\begin{minipage}[t]{0.6\textwidth}
+			\begin{itemize}
+				\item Ernst Haeckel (1834-1919), como acuñador del término <<\textbf{ecología}>>, lo define como \textit{las interacciones entre los organismos y su medio ambiente}.
+				\item Esto refleja que las condiciones físicas del nicho ecológico son claves para el entendimiento de un ecosistema.
+			\end{itemize}
+		\end{minipage}
+		\hfill
+		\begin{minipage}[t]{0.3\textwidth}
+			\begin{figure}[h]
+				\centering
+				\includegraphics[width=\textwidth]{1200px-Ernst_Haeckel_5.jpg}
+				\caption{Ernst Haeckel}
+				\label{fig:Ernst_Haeckel}
+			\end{figure}
+		\end{minipage}
+		
+		
+		
+	\end{frame}
+	
+	
+	\begin{frame}[fragile]
+		\frametitle{Descripción}
+		
+		\justifying
+		
+		Se dispone de información sobre 25 islas del archipiélago, recolectada en la actualidad, y contiene las siguientes variables:
+		
+		\vspace{0.2cm}
+		
+		\begin{itemize}
+			\item \textbf{isla}: nombre de la isla. [Nominal] [Id.]
+			\item \textbf{numero}: número de especies presentes en la isla. [Razón] [Discreta]
+			\item \textbf{area}: área de la isla ($km^2$). [Razón] [Continua]
+			\item \textbf{elevacion}: altitud de la isla sobre el nivel del mar ($m$). [Razón] [Continua]
+			\item \textbf{cercana}: distancia a la isla más próxima ($km$). [Razón] [Continua]
+		\end{itemize}
+		
+	\end{frame}
+	
+	\begin{frame}[fragile]
+		\frametitle{Descripción}
+		
+		\justifying
+		
+		\begin{figure}[h]
+			\centering
+			\begin{minipage}[b]{0.34\textwidth}
+				\centering
+				\includegraphics[width=\textwidth]{tabla_base_datos.png}
+				\caption{Base de Datos disponibles.}
+				\label{fig:mapa1}
+			\end{minipage}
+			\hfill
+			\begin{minipage}[b]{0.64\textwidth}
+				\centering
+				\includegraphics[width=\textwidth]{mapa-galapagos-scaled.jpeg}
+				\caption{Mapa de Galápagos. En rojo, islas no consideradas.}
+				\label{fig:mapa2}
+			\end{minipage}
+		\end{figure}
+		
+		
+	\end{frame}
+	
+	\section{Análisis preliminar}
+	\begin{frame}[fragile]
+		\frametitle{Análisis preliminar}
+		
+		\justifying
+		\begin{lstlisting}
+			pairs(df2, pch = 19, col = 6, main = "Pareado de variables ecologicas", gap = 0.2, row1attop = FALSE, labels = colnames(df2), cex.labels = 1.8, font.labels = 1)
+		\end{lstlisting}
+		
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=0.75\textwidth]{Rplot03.png}
+			\label{fig:Pair}
+		\end{figure}
+		
+	\end{frame}
+	
+	\begin{frame}[fragile]
+		\frametitle{Análisis preliminar}
+		
+		\justifying
+		\begin{lstlisting}
+			library(ggplot2)
+			library(tidyr)
+			library(dplyr)
+			cor_matrix <- cor(df2, method = "pearson")
+			cor_long <- as.data.frame(as.table(cor_matrix))
+			ggplot(data = cor_long, aes(Var1, Var2, fill = Freq)) + geom_tile(color = "white") + scale_fill_gradient2(low = "blue", high = "red", mid = "purple", midpoint = 0, limit = c(-1, 1), name = "Correlacion") + theme_minimal() + labs(title = "Heatmap de Correlacion", x = "", y = "") + geom_text(aes(label = round(Freq, 2)), color = "white", size = 5)
+		\end{lstlisting}
+		
+		\begin{figure}[h]
+			\centering
+			\includegraphics[width=0.55\textwidth]{Rplot04.jpeg}
+			\label{fig:Heat}
+		\end{figure}
+		
+	\end{frame}
+	
+	\section{Modelado}
+	\begin{frame}[fragile]
+		\frametitle{Modelado}
+		
+		\justifying
+		
+		\textbf{Regresión lineal multiple}
+		
+		\vspace{0.2cm}
+		
+		\begin{equation*}
+			Y = X\beta + \epsilon \text{,   } \epsilon \sim N(0, \sigma^2I)
+		\end{equation*}
+		
+		Donde:
+		
+		\begin{itemize}
+			\item $Y$: vector de valores de la variable dependiente de orden $n \times 1$.
+			\item $X$: matriz "de diseño" de orden $n \times p$ correspondiente a los valores de las variables independientes.
+			\item $\beta$: vector de orden $p \times 1$ de parametros llamados \textit{coeficientes de regresión}.
+			\item $\epsilon$: vector de errores aleatorios de orden $n \times 1$.
+			\item $\sigma^2$: varianza de la distribución Normal.
+			\item $I$: matriz identidad de orden $n \times n$.
+		\end{itemize}
+		
+	\end{frame}
+	
+	\begin{frame}[fragile]
+		\frametitle{Modelado}
+		
+		\justifying
+		
+		% Usamos columnas para dividir los elementos
+		\begin{columns}
+			% Primera columna: Texto y código
+			\begin{column}{0.4\textwidth}
+				
+				\textbf{Ajuste del modelo}
+				
+				\vspace{0.2cm}
+				
+				\begin{lstlisting}
+					X <- cbind(df$area,
+					df$elevacion, 
+					df$cercana)
+					dim(X) # 25 3
+					n <- dim(X)[1]
+					p <- dim(X)[2]
+					v <- rep(1,n)
+					X <- cbind(v, X)
+					dim(X) # 25 4
+					X[2,3] # 71
+					df[2,1] # "Eden"
+					Y <- df$numero
+					B <- solve(t(X) %*% X) %*% t(X) %*% Y
+					val_pred <- X %*% B
+					cor(Y,val_pred) # 0.87
+					
+					plot(Y, val_pred, xlab = "Valores Observados", ylab = "Valores Predichos", col = "blue", pch = 16)
+					abline(0, 1, col = "red")
+				\end{lstlisting}
+			\end{column}
+			
+			% Segunda columna: Imagen
+			\begin{column}{0.6\textwidth}
+				\centering
+				\includegraphics[width=\textwidth]{Rplot05.jpeg}
+			\end{column}
+		\end{columns}
+		
+		\begin{equation*}
+			\hat{\beta}_0 = 11.09,\text{ } \hat{\beta}_1 = 0.79,\text{ } \hat{\beta}_2 = 0.13,\text{ } \hat{\beta}_3 = -0.91
+		\end{equation*}
+		
+	\end{frame}
+	
+	\begin{frame}[fragile]
+		\frametitle{Modelado}
+		
+		\justifying
+		
+		% Usamos columnas para dividir los elementos
+		\begin{columns}
+			% Primera columna: Texto y código
+			\begin{column}{0.5\textwidth}
+				
+				\textbf{Cálculo de incertidumbre}
+				
+				\vspace{0.2cm}
+				
+				\begin{lstlisting}
+					e <- Y - B %*% X
+					H <- X %*% solve(t(X) %*% X) %*% t(X)
+					I <- I <- diag(1,n)
+					SCE <- t(Y) %*% (I - H) %*% Y
+					sig <- SCE/(n-p)
+					sig_scal <- as.numeric(sig)
+					sigb <- solve(t(X) %*% X) * sig_scal
+					sqrt(sigb[2,2]) # 0.192
+					rownames(sigb) <- c("intercepto", "area", "elevacion", "cercania")
+					colnames(sigb) <- c("intercepto", "area", "elevacion", "cercania")
+					sigb_long <- as.data.frame(as.table(sigb))
+					ggplot(data = sigb_long, aes(Var1, Var2, fill = Freq)) + geom_tile(color = "white") + scale_fill_gradient2(low = "blue", high = "red", mid = "purple", midpoint = 0, limit = range(sigb), name = "Covarianza") + theme_minimal() + labs(title = "Matriz de Covarianzas de Coeficientes", x = "", y = "") + geom_text(aes(label = round(Freq, 3)), color = "white", size = 5)
+				\end{lstlisting}
+			\end{column}
+			
+			% Segunda columna: Imagen
+			\begin{column}{0.5\textwidth}
+				\centering
+				\includegraphics[width=\textwidth]{Rplot06.jpeg}
+			\end{column}
+		\end{columns}
+		
+		
+	\end{frame}
+	
+	\section{Conclusión}
+	\begin{frame}[fragile]
+		\frametitle{Conclusión}
+		
+		\justifying
+		\centering % Centra el contenido
+		\Huge % Cambia el tamaño del texto a grande
+		\textbf{Conclusión} % Texto en negrita
+	\end{frame}
+	
+	
+	\section{Bibliografía}
+	\begin{frame}[fragile]
+		\frametitle{Bibliografía}
+		
+		\justifying
+		\begin{itemize}
+			\item Aprenda estadísticas fácilmente. (2023, 13 de junio). \textit{Una guía completa sobre los niveles de medición en el análisis de datos}. \url{https://es.statisticseasily.com/niveles-de-medida/}
+			\item Ecuador Ec. (s.f.). ¿Cuántas islas hay en Galápagos? ¿Cuáles son los nombres?. \url{https://ecuadorec.com/cuantas-islas-hay-en-galapagos-cual-son-los-nombres/}
+			\item Ecuador Galápagos Info. (s.f.). \textit{Mapa de Galápagos}.
+			\url{https://ecuadorgalapagosinfo.com/islas-galapagos/mapa/}
+			\item Rodríguez Martínez, J. (2013). \textit{Ecología} (3a ed.). Ediciones Pirámide.
+			\item Ximénez, M. C., \& San Martín, R. (2013). \textit{Fundamentos de las técnicas multivariantes}. Universidad Nacional de Educación a Distancia. Edición digital, octubre de 2013.
+		\end{itemize}
+		
+	\end{frame}
+	
+\end{document}
