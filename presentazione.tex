@@ -36,31 +36,60 @@
 \usepackage{transparent}
 
 % Paquete para códigos
-\usepackage{listings}
+\usepackage{minted}
 \usepackage{xcolor}
 
-
-% Configuración para mostrar código de R
-\lstset{
-	inputencoding=utf8,                % Asegura codificación UTF-8
-	extendedchars=true,                % Habilita caracteres extendidos
-	literate= {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
-	{Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
-	{ñ}{{\~n}}1 {Ñ}{{\~N}}1 {¿}{{\textquestiondown}}1 {¡}{{\textexclamdown}}1
-	{“}{{``}}1 {”}{{''}}1 {‘}{{`}}1 {’}{{'}}1, % Manejo de comillas y signos
-	language=R,
-	basicstyle=\ttfamily\tiny,
-	keywordstyle=\color{blue},
-	commentstyle=\color{green!60!black},
-	stringstyle=\color{red},
-	showstringspaces=false,
-	breaklines=true,
-	backgroundcolor=\color{orange!15!white},
-	frame=single,
-	numbers=left,
-	numberstyle=\tiny\color{gray},
-	captionpos=b
+% --- CONFIGURACIÓN OPTIMIZADA PARA CÓDIGO CON MINTED ---
+\setminted{
+	fontsize=\tiny,           % Tamaño de fuente más controlado que \tiny
+	bgcolor=orange!10,              % Color de fondo más sutil
+	frame=lines,                    % Marco de líneas
+	breaklines=true,                % Permite corte de líneas largas
+	breakanywhere=true,             % Permite corte en cualquier lugar si es necesario
+	linenos=true,                   % Números de línea
+	numbersep=3pt,                  % Separación entre números y código
+	%numberstyle=\tiny\color{gray!70}, % Estilo de números más sutil
+	%captionpos=b,                   % Posición del caption
+	style=friendly,                 % Estilo de coloreado
+	tabsize=1,                      % Tamaño de tabulación
+	xleftmargin=0pt,                % Margen izquierdo
+	xrightmargin=0pt,               % Margen derecho
+	resetmargins=true,              % Resetea márgenes
+	autogobble=true,                % Elimina indentación automáticamente
+	stripnl=true,                   % Elimina líneas vacías al inicio/final
+	mathescape=false,               % Desactiva escape matemático para evitar conflictos
 }
+
+% Configuración específica para diferentes lenguajes
+\newminted{r}{
+	fontsize=\tiny,
+	bgcolor=blue!5,
+	frame=lines,
+	breaklines=true,
+	breakanywhere=true,
+	linenos=true,
+	numbersep=3pt,
+	%numberstyle=\tiny\color{blue!50},
+	style=friendly,
+	tabsize=1,
+	xleftmargin=0pt,
+	xrightmargin=0pt,
+	resetmargins=true,
+	autogobble=true,
+	stripnl=true,
+}
+
+% Entorno personalizado para código que se ajusta al ancho de la diapositiva
+\newenvironment{codigoajustado}[1][r]{%
+	\begin{adjustbox}{width=\textwidth,center}%
+		\begin{minipage}{\textwidth}%
+		}{%
+		\end{minipage}%
+	\end{adjustbox}%
+}
+
+% Paquete para ajustar contenido
+\usepackage{adjustbox}
 
 \captionsetup{justification=centering}
 
@@ -77,6 +106,7 @@
 \year=2024
 \month=10
 \day=1
+
 \def\relatore{José Zúñiga Núñez}
 \def\relatoreLabel{Profesor}
 \def\candidatoLabel{Autor}
@@ -93,10 +123,8 @@
 		\maketitle
 	\end{frame}
 	
-	
 	\begin{frame}[fragile]
 		\frametitle{Contenidos}
-		
 		\justifying
 		\tableofcontents
 	\end{frame}
@@ -104,7 +132,6 @@
 	\section{Introducción}
 	\begin{frame}[fragile]
 		\frametitle{Introducción}
-		
 		\justifying
 		
 		\begin{itemize}
@@ -126,7 +153,6 @@
 	\section{Descripción}
 	\begin{frame}[fragile]
 		\frametitle{Descripción}
-		
 		\justifying
 		
 		Se busca encontrar patrones ecológicos que sean capaces de predecir la diversidad de especies de una isla del archipiélago cualquiera, basándonos en sus relaciones de frecuencias con otros factores ecológicos registrables.
@@ -149,15 +175,10 @@
 				\label{fig:Ernst_Haeckel}
 			\end{figure}
 		\end{minipage}
-		
-		
-		
 	\end{frame}
-	
 	
 	\begin{frame}[fragile]
 		\frametitle{Descripción}
-		
 		\justifying
 		
 		Se dispone de información sobre 25 islas del archipiélago, recolectada en la actualidad, y contiene las siguientes variables:
@@ -171,12 +192,10 @@
 			\item \textbf{elevacion}: altitud de la isla sobre el nivel del mar ($m$). [Razón] [Continua]
 			\item \textbf{cercana}: distancia a la isla más próxima ($km$). [Razón] [Continua]
 		\end{itemize}
-		
 	\end{frame}
 	
 	\begin{frame}[fragile]
 		\frametitle{Descripción}
-		
 		\justifying
 		
 		\begin{figure}[h]
@@ -195,52 +214,67 @@
 				\label{fig:mapa2}
 			\end{minipage}
 		\end{figure}
-		
-		
 	\end{frame}
 	
 	\section{Análisis preliminar}
 	\begin{frame}[fragile]
 		\frametitle{Análisis preliminar}
-		
 		\justifying
-		\begin{lstlisting}
-			pairs(df2, pch = 19, col = 6, main = "Pareado de variables ecologicas", gap = 0.2, row1attop = FALSE, labels = colnames(df2), cex.labels = 1.8, font.labels = 1)
-		\end{lstlisting}
+		
+		\begin{codigoajustado}
+			\begin{rcode}
+				pairs(df2, pch = 19, col = 6, 
+				main = "Pareado de variables ecologicas", 
+				gap = 0.2, row1attop = FALSE, 
+				labels = colnames(df2), 
+				cex.labels = 1.8, font.labels = 1)
+			\end{rcode}
+		\end{codigoajustado}
+		
+		\vspace{0.3cm}
 		
 		\begin{figure}[h]
 			\centering
 			\includegraphics[width=0.75\textwidth]{Rplot03.png}
 			\label{fig:Pair}
 		\end{figure}
-		
 	\end{frame}
 	
 	\begin{frame}[fragile]
 		\frametitle{Análisis preliminar}
-		
 		\justifying
-		\begin{lstlisting}
-			library(ggplot2)
-			library(tidyr)
-			library(dplyr)
-			cor_matrix <- cor(df2, method = "pearson")
-			cor_long <- as.data.frame(as.table(cor_matrix))
-			ggplot(data = cor_long, aes(Var1, Var2, fill = Freq)) + geom_tile(color = "white") + scale_fill_gradient2(low = "blue", high = "red", mid = "purple", midpoint = 0, limit = c(-1, 1), name = "Correlacion") + theme_minimal() + labs(title = "Heatmap de Correlacion", x = "", y = "") + geom_text(aes(label = round(Freq, 2)), color = "white", size = 5)
-		\end{lstlisting}
+		
+		\begin{codigoajustado}
+			\begin{rcode}
+				library(ggplot2)
+				library(tidyr)
+				library(dplyr)
+				cor_matrix <- cor(df2, method = "pearson")
+				cor_long <- as.data.frame(as.table(cor_matrix))
+				ggplot(data = cor_long, aes(Var1, Var2, fill = Freq)) + 
+				geom_tile(color = "white") + 
+				scale_fill_gradient2(low = "blue", high = "red", 
+				mid = "purple", midpoint = 0, 
+				limit = c(-1, 1), name = "Correlacion") + 
+				theme_minimal() + 
+				labs(title = "Heatmap de Correlacion", x = "", y = "") + 
+				geom_text(aes(label = round(Freq, 2)), 
+				color = "white", size = 5)
+			\end{rcode}
+		\end{codigoajustado}
+		
+		\vspace{0.2cm}
 		
 		\begin{figure}[h]
 			\centering
 			\includegraphics[width=0.55\textwidth]{Rplot04.jpeg}
 			\label{fig:Heat}
 		\end{figure}
-		
 	\end{frame}
 	
 	\section{Modelado}
 	\begin{frame}[fragile]
 		\frametitle{Modelado}
-		
 		\justifying
 		
 		\textbf{Regresión lineal multiple}
@@ -261,27 +295,20 @@
 			\item $\sigma^2$: varianza de la distribución Normal.
 			\item $I$: matriz identidad de orden $n \times n$.
 		\end{itemize}
-		
 	\end{frame}
 	
 	\begin{frame}[fragile]
 		\frametitle{Modelado}
-		
 		\justifying
 		
-		% Usamos columnas para dividir los elementos
 		\begin{columns}
-			% Primera columna: Texto y código
-			\begin{column}{0.4\textwidth}
-				
+			\begin{column}{0.45\textwidth}
 				\textbf{Ajuste del modelo}
 				
 				\vspace{0.2cm}
 				
-				\begin{lstlisting}
-					X <- cbind(df$area,
-					df$elevacion, 
-					df$cercana)
+				\begin{rcode}
+					X <- cbind(df$area, df$elevacion, df$cercana)
 					dim(X) # 25 3
 					n <- dim(X)[1]
 					p <- dim(X)[2]
@@ -295,89 +322,93 @@
 					val_pred <- X %*% B
 					cor(Y,val_pred) # 0.87
 					
-					plot(Y, val_pred, xlab = "Valores Observados", ylab = "Valores Predichos", col = "blue", pch = 16)
+					plot(Y, val_pred, 
+					xlab = "Valores Observados", 
+					ylab = "Valores Predichos", 
+					col = "blue", pch = 16)
 					abline(0, 1, col = "red")
-				\end{lstlisting}
+				\end{rcode}
 			\end{column}
 			
-			% Segunda columna: Imagen
-			\begin{column}{0.6\textwidth}
+			\begin{column}{0.55\textwidth}
 				\centering
 				\includegraphics[width=\textwidth]{Rplot05.jpeg}
 			\end{column}
 		\end{columns}
 		
+		\vspace{0.2cm}
+		
 		\begin{equation*}
 			\hat{\beta}_0 = 11.09,\text{ } \hat{\beta}_1 = 0.79,\text{ } \hat{\beta}_2 = 0.13,\text{ } \hat{\beta}_3 = -0.91
 		\end{equation*}
-		
 	\end{frame}
 	
 	\begin{frame}[fragile]
 		\frametitle{Modelado}
-		
 		\justifying
 		
-		% Usamos columnas para dividir los elementos
 		\begin{columns}
-			% Primera columna: Texto y código
 			\begin{column}{0.5\textwidth}
-				
 				\textbf{Cálculo de incertidumbre}
 				
 				\vspace{0.2cm}
 				
-				\begin{lstlisting}
+				\begin{rcode}
 					e <- Y - B %*% X
 					H <- X %*% solve(t(X) %*% X) %*% t(X)
-					I <- I <- diag(1,n)
+					I <- diag(1,n)
 					SCE <- t(Y) %*% (I - H) %*% Y
 					sig <- SCE/(n-p)
 					sig_scal <- as.numeric(sig)
 					sigb <- solve(t(X) %*% X) * sig_scal
 					sqrt(sigb[2,2]) # 0.192
-					rownames(sigb) <- c("intercepto", "area", "elevacion", "cercania")
-					colnames(sigb) <- c("intercepto", "area", "elevacion", "cercania")
+					rownames(sigb) <- c("intercepto", "area", 
+					"elevacion", "cercania")
+					colnames(sigb) <- c("intercepto", "area", 
+					"elevacion", "cercania")
 					sigb_long <- as.data.frame(as.table(sigb))
-					ggplot(data = sigb_long, aes(Var1, Var2, fill = Freq)) + geom_tile(color = "white") + scale_fill_gradient2(low = "blue", high = "red", mid = "purple", midpoint = 0, limit = range(sigb), name = "Covarianza") + theme_minimal() + labs(title = "Matriz de Covarianzas de Coeficientes", x = "", y = "") + geom_text(aes(label = round(Freq, 3)), color = "white", size = 5)
-				\end{lstlisting}
+					ggplot(data = sigb_long, 
+					aes(Var1, Var2, fill = Freq)) + 
+					geom_tile(color = "white") + 
+					scale_fill_gradient2(low = "blue", high = "red", 
+					mid = "purple", midpoint = 0, 
+					limit = range(sigb), 
+					name = "Covarianza") + 
+					theme_minimal() + 
+					labs(title = "Matriz de Covarianzas de Coeficientes", 
+					x = "", y = "") + 
+					geom_text(aes(label = round(Freq, 3)), 
+					color = "white", size = 5)
+				\end{rcode}
 			\end{column}
 			
-			% Segunda columna: Imagen
 			\begin{column}{0.5\textwidth}
 				\centering
 				\includegraphics[width=\textwidth]{Rplot06.jpeg}
 			\end{column}
 		\end{columns}
-		
-		
 	\end{frame}
 	
 	\section{Conclusión}
 	\begin{frame}[fragile]
 		\frametitle{Conclusión}
-		
 		\justifying
-		\centering % Centra el contenido
-		\Huge % Cambia el tamaño del texto a grande
-		\textbf{Conclusión} % Texto en negrita
+		\centering
+		\Huge
+		\textbf{Conclusión}
 	\end{frame}
-	
 	
 	\section{Bibliografía}
 	\begin{frame}[fragile]
 		\frametitle{Bibliografía}
-		
 		\justifying
 		\begin{itemize}
 			\item Aprenda estadísticas fácilmente. (2023, 13 de junio). \textit{Una guía completa sobre los niveles de medición en el análisis de datos}. \url{https://es.statisticseasily.com/niveles-de-medida/}
 			\item Ecuador Ec. (s.f.). ¿Cuántas islas hay en Galápagos? ¿Cuáles son los nombres?. \url{https://ecuadorec.com/cuantas-islas-hay-en-galapagos-cual-son-los-nombres/}
-			\item Ecuador Galápagos Info. (s.f.). \textit{Mapa de Galápagos}.
-			\url{https://ecuadorgalapagosinfo.com/islas-galapagos/mapa/}
+			\item Ecuador Galápagos Info. (s.f.). \textit{Mapa de Galápagos}. \url{https://ecuadorgalapagosinfo.com/islas-galapagos/mapa/}
 			\item Rodríguez Martínez, J. (2013). \textit{Ecología} (3a ed.). Ediciones Pirámide.
 			\item Ximénez, M. C., \& San Martín, R. (2013). \textit{Fundamentos de las técnicas multivariantes}. Universidad Nacional de Educación a Distancia. Edición digital, octubre de 2013.
 		\end{itemize}
-		
 	\end{frame}
 	
 \end{document}

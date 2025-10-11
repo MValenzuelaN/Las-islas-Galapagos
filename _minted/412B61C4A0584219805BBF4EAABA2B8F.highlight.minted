@@ -1,0 +1,21 @@
+\begin{MintedVerbatim}[commandchars=\\\{\}]
+\PYG{n}{X}\PYG{+w}{ }\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{+w}{ }\PYG{n+nf}{cbind}\PYG{p}{(}\PYG{n}{df}\PYG{o}{\PYGZdl{}}\PYG{n}{area}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{df}\PYG{o}{\PYGZdl{}}\PYG{n}{elevacion}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{df}\PYG{o}{\PYGZdl{}}\PYG{n}{cercana}\PYG{p}{)}
+\PYG{n+nf}{dim}\PYG{p}{(}\PYG{n}{X}\PYG{p}{)}\PYG{+w}{ }\PYG{c+c1}{\PYGZsh{} 25 3}
+\PYG{n}{n}\PYG{+w}{ }\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{+w}{ }\PYG{n+nf}{dim}\PYG{p}{(}\PYG{n}{X}\PYG{p}{)[}\PYG{l+m}{1}\PYG{p}{]}
+\PYG{n}{p}\PYG{+w}{ }\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{+w}{ }\PYG{n+nf}{dim}\PYG{p}{(}\PYG{n}{X}\PYG{p}{)[}\PYG{l+m}{2}\PYG{p}{]}
+\PYG{n}{v}\PYG{+w}{ }\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{+w}{ }\PYG{n+nf}{rep}\PYG{p}{(}\PYG{l+m}{1}\PYG{p}{,}\PYG{n}{n}\PYG{p}{)}
+\PYG{n}{X}\PYG{+w}{ }\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{+w}{ }\PYG{n+nf}{cbind}\PYG{p}{(}\PYG{n}{v}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{X}\PYG{p}{)}
+\PYG{n+nf}{dim}\PYG{p}{(}\PYG{n}{X}\PYG{p}{)}\PYG{+w}{ }\PYG{c+c1}{\PYGZsh{} 25 4}
+\PYG{n}{X}\PYG{p}{[}\PYG{l+m}{2}\PYG{p}{,}\PYG{l+m}{3}\PYG{p}{]}\PYG{+w}{ }\PYG{c+c1}{\PYGZsh{} 71}
+\PYG{n}{df}\PYG{p}{[}\PYG{l+m}{2}\PYG{p}{,}\PYG{l+m}{1}\PYG{p}{]}\PYG{+w}{ }\PYG{c+c1}{\PYGZsh{} \PYGZdq{}Eden\PYGZdq{}}
+\PYG{n}{Y}\PYG{+w}{ }\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{+w}{ }\PYG{n}{df}\PYG{o}{\PYGZdl{}}\PYG{n}{numero}
+\PYG{n}{B}\PYG{+w}{ }\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{+w}{ }\PYG{n+nf}{solve}\PYG{p}{(}\PYG{n+nf}{t}\PYG{p}{(}\PYG{n}{X}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZpc{}*\PYGZpc{}}\PYG{+w}{ }\PYG{n}{X}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZpc{}*\PYGZpc{}}\PYG{+w}{ }\PYG{n+nf}{t}\PYG{p}{(}\PYG{n}{X}\PYG{p}{)}\PYG{+w}{ }\PYG{o}{\PYGZpc{}*\PYGZpc{}}\PYG{+w}{ }\PYG{n}{Y}
+\PYG{n}{val\PYGZus{}pred}\PYG{+w}{ }\PYG{o}{\PYGZlt{}\PYGZhy{}}\PYG{+w}{ }\PYG{n}{X}\PYG{+w}{ }\PYG{o}{\PYGZpc{}*\PYGZpc{}}\PYG{+w}{ }\PYG{n}{B}
+\PYG{n+nf}{cor}\PYG{p}{(}\PYG{n}{Y}\PYG{p}{,}\PYG{n}{val\PYGZus{}pred}\PYG{p}{)}\PYG{+w}{ }\PYG{c+c1}{\PYGZsh{} 0.87}
+
+\PYG{n+nf}{plot}\PYG{p}{(}\PYG{n}{Y}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{val\PYGZus{}pred}\PYG{p}{,}
+\PYG{n}{xlab}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Valores Observados\PYGZdq{}}\PYG{p}{,}
+\PYG{n}{ylab}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Valores Predichos\PYGZdq{}}\PYG{p}{,}
+\PYG{n}{col}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}blue\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{pch}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+m}{16}\PYG{p}{)}
+\PYG{n+nf}{abline}\PYG{p}{(}\PYG{l+m}{0}\PYG{p}{,}\PYG{+w}{ }\PYG{l+m}{1}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{col}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}red\PYGZdq{}}\PYG{p}{)}
+\end{MintedVerbatim}
